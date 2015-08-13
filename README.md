@@ -13,10 +13,10 @@ greatly reducing storage requirements. However note that the true
 on sites with zillions of images and no requirement for high-quality
 originals to remain available after upload.
 
-Often run as a cron job:
+Often run as a cron job with the `--quiet` option:
 
 ```
-0 3 * * * replace-original-with-full /opt/stagecoach/apps/YOURAPP/current/public/uploads/files
+0 3 * * * replace-original-with-full /opt/stagecoach/apps/YOURAPP/current/public/uploads/files --quiet
 ```
 
 This utility is a simple shelljs script, it's not part of Apostrophe itself.

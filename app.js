@@ -5,6 +5,8 @@ if (argv._.length !== 1) {
   console.error('Hardlinks the "original" of each image to the "full" scaled version,');
   console.error('greatly reducing storage requirements. However note that the true');
   console.error('"original" is GONE FOREVER. Gone gone gone.');
+  console.error('');
+  console.error('Use the --quiet option for silent operation.');
   process.exit(1);
 }
 
@@ -38,8 +40,10 @@ files.forEach(function(file) {
     return ext;
   }));
   i++;
-  if (!(i % 100)) {
-    console.log(i);
+  if (!argv['quiet']) {
+    if (!(i % 100)) {
+      console.log(i);
+    }
   }
 });
 
