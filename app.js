@@ -1,6 +1,6 @@
-var boring = require('boring');
+var argv = require('boring')();
 
-if (boring._.length !== 1) {
+if (argv._.length !== 1) {
   console.error('Usage: replace-original-with-full /path/to/public/uploads/files');
   console.error('Hardlinks the "original" of each image to the "full" scaled version,');
   console.error('greatly reducing storage requirements. However note that the true');
@@ -8,9 +8,9 @@ if (boring._.length !== 1) {
   process.exit(1);
 }
 
-// cd to the public/uploads/files folder first. -Tom
-
 require('shelljs/global');
+
+cd(argv._[0]);
 
 var sizes = [ 'two-thirds', 'one-half', 'one-third', 'one-sixth' ];
 
