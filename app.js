@@ -16,6 +16,10 @@ cd(argv._[0]);
 
 var sizes = [ 'two-thirds', 'one-half', 'one-third', 'one-sixth' ];
 
+if (argv['extra-sizes']) {
+  sizes = sizes.concat(argv['extra-sizes'].split(/\s*,\s*/));
+}
+
 var files = ls('*.full.*');
 
 var i = 0;
@@ -25,16 +29,20 @@ files.forEach(function(file) {
     // Maybe just something with full in its name, don't wreck it
     return;
   }
-  // Maybe you're doing this on staging and you'd rather have
-  // just the full-size file. For production it makes much more
-  // sense to keep all the other sizes but hardlink the original to full
-  //
-  // sizes.forEach(function(size) {
-  //   var linked = file.replace(/full\.(\w+)/, function(whole, ext) {
-  //     return size + '.' + ext;
-  //   });
-  //   ln('-f', file, linked);
-  // });
+  if (argv['link-all-sizes']) {
+    // Maybe you're doing this on staging or dev and you'd rather have
+    // just the full-size file and not bother with the other scaled
+    // sizes, but rather just hardlink those too. For production it makes much more
+    // sense to keep all the other sizes but hardlink the original to full. You
+    // do NOT want to force people to download full size as a thumbnail
+    // in production
+    sizes.forEach(function(size) {
+      var linked = file.replace(/full\.(\w+)/, function(whole, ext) {
+        return size + '.' + ext;
+      });
+      ln('-f', file, linked);
+    });
+  }
   // Do the original
   ln('-f', file, file.replace(/full\.(\w+)/, function(whole, ext) {
     return ext;
