@@ -25,3 +25,14 @@ If you add the `--extra-sizes` option, you can configure a comma-separated list 
 
 This utility is a simple shelljs script, it's not part of Apostrophe itself.
 
+## Syncing down just the `full` images with rsync
+
+Those using this script in a dev environment will want to know how to copy down just the `full` images from their production server. This command is helpful:
+
+```
+rsync -a --progress --include="*/" --include="*.full.jpg" --exclude="*" nodeapps@myserver.com:/opt/stagecoach/apps/fandm/uploads/ public/uploads
+```
+
+rsync's include and exclude options are tricky; this sequence gets it done. (Include all folders, include all files with the right names, exclude everything else.)
+
+
