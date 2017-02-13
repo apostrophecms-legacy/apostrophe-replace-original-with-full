@@ -29,6 +29,8 @@ If you add the `--link-all-sizes` option, the rest of the usual Apostrophe image
 
 If you add the `--extra-sizes` option, you can configure a comma-separated list of extra sizes beyond the standard ones. This is only relevant in combination with `--link-all-sizes`.
 
+If you add the `--size` option, you can specify a size name other than `full`.
+
 This utility is a simple shelljs script, it's not part of Apostrophe itself.
 
 ## Syncing down just the `full` images with rsync
