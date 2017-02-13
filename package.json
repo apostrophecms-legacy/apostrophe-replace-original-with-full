@@ -1,6 +1,6 @@
 {
   "name": "apostrophe-replace-original-with-full",
-  "version": "0.5.4",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "boring": "^0.1.0",
-    "shelljs": "^0.5.3"
+    "shelljs": "^0.7.0"
   },
   "bin": {
     "replace-original-with-full": "./bin/replace-original-with-full"
