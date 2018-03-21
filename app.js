@@ -33,39 +33,41 @@ if (argv['extra-sizes']) {
 var files = ls('*.' + size + '.*');
 
 var i = 0;
-
-files.forEach(function(file) {
-  if (!file.match(new RegExp('\\.' + size + '\\.(\\w+)'))) {
-    // Maybe just something with full in its name, don't wreck it
-    return;
-  }
-  if (argv['link-all-sizes']) {
-    // Maybe you're doing this on staging or dev and you'd rather have
-    // just the full-size file and not bother with the other scaled
-    // sizes, but rather just hardlink those too. For production it makes much more
-    // sense to keep all the other sizes but hardlink the original to full. You
-    // do NOT want to force people to download full size as a thumbnail
-    // in production
-    sizes.forEach(function(_size) {
-      if (size === _size) {
-        // You link it to itself, you do, that's what really hurts
-        return;
-      }
-      var linked = file.replace(new RegExp(size + '\\.(\\w+)$'), function(whole, ext) {
-        return _size + '.' + ext;
-      });
-      ln('-f', file, linked);
-    });
-  }
-  // Do the original
-  ln('-f', file, file.replace(new RegExp(size + '\\.(\\w+)$'), function(whole, ext) {
-    return ext;
-  }));
-  i++;
-  if (!argv['quiet']) {
-    if (!(i % 100)) {
-      console.log(i);
+if (files !== undefined && files.length > 0) {
+  files.forEach(function(file) {
+    if (!file.match(new RegExp('\\.' + size + '\\.(\\w+)'))) {
+      // Maybe just something with full in its name, don't wreck it
+      return;
     }
-  }
-});
-
+    if (argv['link-all-sizes']) {
+      // Maybe you're doing this on staging or dev and you'd rather have
+      // just the full-size file and not bother with the other scaled
+      // sizes, but rather just hardlink those too. For production it makes much more
+      // sense to keep all the other sizes but hardlink the original to full. You
+      // do NOT want to force people to download full size as a thumbnail
+      // in production
+      sizes.forEach(function(_size) {
+        if (size === _size) {
+          // You link it to itself, you do, that's what really hurts
+          return;
+        }
+        var linked = file.replace(new RegExp(size + '\\.(\\w+)$'), function(whole, ext) {
+          return _size + '.' + ext;
+        });
+        ln('-f', file, linked);
+      });
+    }
+    // Do the original
+    ln('-f', file, file.replace(new RegExp(size + '\\.(\\w+)$'), function(whole, ext) {
+      return ext;
+    }));
+    i++;
+    if (!argv['quiet']) {
+      if (!(i % 100)) {
+        console.log(i);
+      }
+    }
+  });
+} else {
+  console.log('No files of the ' + size + ' size found. You may need to add the image size and/or run the rescale task first.');
+}
