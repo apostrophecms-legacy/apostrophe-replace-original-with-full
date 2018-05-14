@@ -1,4 +1,5 @@
 var argv = require('boring')();
+var glob = require('glob');
 
 if (argv._.length !== 1) {
   console.error('Usage: replace-original-with-full /path/to/public/uploads/attachments [--size=othersizename] [--extra-sizes=name1,name2]');
@@ -30,7 +31,9 @@ if (argv['extra-sizes']) {
   sizes = sizes.concat(argv['extra-sizes'].split(/\s*,\s*/));
 }
 
-var files = ls('*.' + size + '.*');
+var files = glob.sync('*.' + size + '.*');
+console.log(files);
+process.exit(0);
 
 var i = 0;
 
