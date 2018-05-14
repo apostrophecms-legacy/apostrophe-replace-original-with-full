@@ -32,8 +32,6 @@ if (argv['extra-sizes']) {
 }
 
 var files = glob.sync('*.' + size + '.*');
-console.log(files);
-process.exit(0);
 
 var i = 0;
 
